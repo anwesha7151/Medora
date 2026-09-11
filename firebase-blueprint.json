@@ -1,0 +1,101 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Registered user profile with role and health settings",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Unique user ID" },
+        "fullName": {
+          "type": "string",
+          "description": "Full name of the user"
+        },
+        "email": { "type": "string", "description": "User email address" },
+        "role": {
+          "type": "string",
+          "enum": ["patient", "pharmacy", "doctor", "admin"],
+          "description": "User role in Medora"
+        },
+        "city": {
+          "type": "string",
+          "description": "City of residence or practice"
+        },
+        "allergies": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Known allergies"
+        },
+        "conditions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Known medical conditions"
+        },
+        "currentMedicines": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Active regular medicines"
+        },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "fullName", "email", "role"]
+    },
+    "PrescriptionRecord": {
+      "title": "Prescription Record",
+      "description": "Patient uploaded prescriptions with extraction details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "fileName": { "type": "string" },
+        "prescriberName": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["extracted", "reviewed", "verified", "rejected"]
+        },
+        "uploadedAt": { "type": "string", "format": "date-time" },
+        "items": { "type": "array", "items": { "type": "object" } }
+      },
+      "required": ["id", "userId", "status"]
+    },
+    "MedicationReminder": {
+      "title": "Medication Reminder",
+      "description": "Scheduled reminder for medication intake",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "medicineName": { "type": "string" },
+        "strength": { "type": "string" },
+        "times": { "type": "array", "items": { "type": "string" } },
+        "startDate": { "type": "string" },
+        "endDate": { "type": "string" },
+        "instruction": { "type": "string" },
+        "active": { "type": "boolean" },
+        "log": { "type": "array", "items": { "type": "object" } }
+      },
+      "required": ["id", "userId", "medicineName", "active"]
+    },
+    "PharmacyOrder": {
+      "title": "Pharmacy Order",
+      "description": "Order or reservation placed at a pharmacy",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "pharmacyId": { "type": "string" },
+        "pharmacyName": { "type": "string" },
+        "total": { "type": "number" },
+        "currency": { "type": "string" },
+        "fulfilment": { "type": "string" },
+        "status": { "type": "string" },
+        "placedAt": { "type": "string", "format": "date-time" },
+        "items": { "type": "array", "items": { "type": "object" } }
+      },
+      "required": ["id", "userId", "pharmacyId", "total", "status"]
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  }
+}
